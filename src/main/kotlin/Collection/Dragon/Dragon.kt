@@ -1,11 +1,11 @@
 data class Dragon(
-    val id: Int,
-    val name: String,
-    val coordinates: Coordinates,
-    val creationDate: LocalDateTime,
-    val age: Long,
-    val weight: Double,
-    val type: DragonType,
-    val character: DragonCharacter?,/
+    val id: Int, // уникальное значение >0, не null, генерируется автоматически
+    val name: String, // не null, не пустая строка
+    val coordinates: Coordinates, // не null
+    val creationDate: LocalDateTime, // не null, генерируется автоматически
+    val age: Long, // >0
+    val weight: Double, // >0
+    val type: DragonType, // не null
+    val character: DragonCharacter?,/ // не null
     val head: DragonHead
 )
