@@ -1,3 +1,6 @@
+package model
+import java.time.LocalDateTime
+
 data class Dragon(
     val id: Int, // уникальное значение >0, не null, генерируется автоматически
     val name: String, // не null, не пустая строка
@@ -6,6 +9,6 @@ data class Dragon(
     val age: Long, // >0
     val weight: Double, // >0
     val type: DragonType, // не null
-    val character: DragonCharacter?,/ // не null
+    val character: DragonCharacter?, // не null
     val head: DragonHead
 )
