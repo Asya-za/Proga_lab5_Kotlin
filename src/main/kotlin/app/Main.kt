@@ -4,6 +4,9 @@ import commands.ExitCommand
 import commands.HelpCommand
 import commands.InfoCommand
 import commands.ShowCommand
+import commands.ClearCommand
+import commands.PrintAscendingCommand
+import commands.SaveCommand
 import collection.CollectionManager
 import collection.CommandManager
 import java.time.LocalDateTime
@@ -31,6 +34,9 @@ fun main(args: Array<String>) {
     commandManager.addToList(InfoCommand(collectionManager))
     commandManager.addToList(ShowCommand(collectionManager))
     commandManager.addToList(ExitCommand())
+    commandManager.addToList(ClearCommand(collectionManager))
+    commandManager.addToList(PrintAscendingCommand(collectionManager))
+    commandManager.addToList(SaveCommand(collectionManager))
 
     println("Программа запущена")
     println("Файл: $fileName")

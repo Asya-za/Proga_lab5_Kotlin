@@ -11,4 +11,9 @@ data class Dragon(
     val type: DragonType, // не null
     val character: DragonCharacter?, // не null
     val head: DragonHead
-)
+) : Comparable<Dragon> {
+
+    override fun compareTo(other: Dragon): Int {
+        return this.age.compareTo(other.age)
+    }
+}
