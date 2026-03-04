@@ -3,7 +3,7 @@ package collection
 import model.Dragon
 import java.time.LocalDateTime
 import java.util.Hashtable
-import com.google.gson.GsonBuilder
+import com.google.gson.*
 import java.io.FileWriter
 
 class CollectionManager (val Time: LocalDateTime, val FileName: String) {
@@ -70,7 +70,17 @@ class CollectionManager (val Time: LocalDateTime, val FileName: String) {
         }
     }
 
-    private val gson = GsonBuilder().create()
+    private val gson = GsonBuilder()
+        .registerTypeAdapter(LocalDateTime::class.java,
+            JsonSerializer<LocalDateTime> { src, _, _ ->
+                JsonPrimitive(src.toString())
+            })
+        .registerTypeAdapter(LocalDateTime::class.java,
+            JsonDeserializer { json, _, _ ->
+                LocalDateTime.parse(json.asString)
+            })
+        .setPrettyPrinting()
+        .create()
 
     fun save() {
         try {
@@ -79,7 +89,7 @@ class CollectionManager (val Time: LocalDateTime, val FileName: String) {
             fileWriter.close()
             println("Коллекция сохранена")
         } catch (e: Exception) {
-            println("Ошибка сохранения")
+            println("Ошибка сохранения: ${e.message}")
         }
     }
 }

@@ -49,7 +49,7 @@ class InsertCommand (private val collectionManager: CollectionManager): Command 
 
         var y: Long
         while (true) {
-            println("Введите коррдинату y")
+            println("Введите координату y")
             try {
                 y = readln().toLong()
                 break
@@ -107,7 +107,7 @@ class InsertCommand (private val collectionManager: CollectionManager): Command 
         }
 
         val dragon = Dragon(
-            id = 1,
+            id = key.toInt(),
             name = nameDragon,
             coordinates = Coordinates(x, y),
             creationDate = LocalDateTime.now(),
