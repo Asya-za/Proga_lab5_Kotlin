@@ -9,11 +9,18 @@ data class Dragon(
     val age: Long, // >0
     val weight: Double, // >0
     val type: DragonType, // не null
-    val character: DragonCharacter?, // не null
-    val head: DragonHead
+    val character: DragonCharacter, // не null
+    val head: DragonHead?
 ) : Comparable<Dragon> {
 
     override fun compareTo(other: Dragon): Int {
         return this.age.compareTo(other.age)
+    }
+
+    init {
+        require(id > 0) {"id должен быть больше нуля"}
+        require(name.isNotBlank()) {"имя не может быть пустым"}
+        require(age > 0) {"возраст должен быть больше нуля"}
+        require(weight > 0) {"weight должен быть больше нуля"}
     }
 }

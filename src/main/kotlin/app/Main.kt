@@ -9,8 +9,10 @@ import commands.PrintAscendingCommand
 import commands.SaveCommand
 import collection.CollectionManager
 import collection.CommandManager
+import commands.InsertCommand
 import java.time.LocalDateTime
-import java.util.Scanner
+//import java.util.Scanner
+
 import java.io.PrintStream
 
 fun main(args: Array<String>) {
@@ -37,16 +39,17 @@ fun main(args: Array<String>) {
     commandManager.addToList(ClearCommand(collectionManager))
     commandManager.addToList(PrintAscendingCommand(collectionManager))
     commandManager.addToList(SaveCommand(collectionManager))
+    commandManager.addToList(InsertCommand(collectionManager))
 
     println("Программа запущена")
     println("Файл: $fileName")
 
 
 
-    val scan = Scanner(System.`in`)
+    //val scan = Scanner(System.`in`)
     while (true) {
-        if (!scan.hasNextLine()) break
-        val line = scan.nextLine().trim() ///убираем пррбелы
+        //if (!scan.hasNextLine()) break
+        val line = readln().trim() ///убираем пррбелы
 
         if (line.isEmpty()) continue
 
