@@ -12,7 +12,7 @@ class InsertCommand (private val collectionManager: CollectionManager): Command 
 
     override fun execution(args: List<String>) {
         if (args.isEmpty()) {
-            println("Необходимо указать ключ")
+            println("Необходимо указать ключ после названия команды")
             return
         }
 
@@ -107,7 +107,7 @@ class InsertCommand (private val collectionManager: CollectionManager): Command 
         }
 
         val dragon = Dragon(
-            id = key.toInt(),
+            id = (collectionManager.Storage.values.maxOfOrNull { it.id } ?: 0) + 1,
             name = nameDragon,
             coordinates = Coordinates(x, y),
             creationDate = LocalDateTime.now(),

@@ -36,15 +36,28 @@ class CollectionManager (val Time: LocalDateTime, val FileName: String) {
     }
 
     fun printAscending() {
-        val sortedList = Storage.values.sorted()
-
-        if (sortedList.isEmpty()) {
+        if (Storage.isEmpty()) {
             println("Элементы не найдены")
-        } else {
-            for (dragon in sortedList) {
-                println(dragon)
-            }
+            return
+        }
 
+        println("Введите поле для сортировки (id, name, age, weight):")
+        val field = readLine()
+        val sortedList = if (field == "id") {
+            Storage.values.sortedBy { it.id }
+        } else if (field == "name") {
+            Storage.values.sortedBy { it.name }
+        } else if (field == "age") {
+            Storage.values.sortedBy { it.age }
+        } else if (field == "weight") {
+            Storage.values.sortedBy { it.weight }
+        } else {
+            println("Неизвестное поле. Сортировка по id.")
+            Storage.values.sortedBy { it.id }
+        }
+
+        for (dragon in sortedList) {
+            println(dragon)
         }
     }
 
@@ -65,7 +78,7 @@ class CollectionManager (val Time: LocalDateTime, val FileName: String) {
             println("Коллекция пуста")
         } else {
             grouped.forEach { (id, count) ->
-                println("ID: $id -> количество: $count")
+                println("ID: $id - количество: $count")
             }
         }
     }

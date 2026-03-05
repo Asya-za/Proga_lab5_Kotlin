@@ -9,7 +9,10 @@ import commands.PrintAscendingCommand
 import commands.SaveCommand
 import collection.CollectionManager
 import collection.CommandManager
+import commands.FilterStartsWithNameCommand
+import commands.GroupCountingByIdCommand
 import commands.InsertCommand
+import commands.RemoveKeyCommand
 import java.time.LocalDateTime
 //import java.util.Scanner
 
@@ -23,7 +26,6 @@ fun main(args: Array<String>) {
         System.err.println("Ошибка: нужно передать имя файла")
         return
     }
-
 
 
     val fileName = args[0]
@@ -40,6 +42,10 @@ fun main(args: Array<String>) {
     commandManager.addToList(PrintAscendingCommand(collectionManager))
     commandManager.addToList(SaveCommand(collectionManager))
     commandManager.addToList(InsertCommand(collectionManager))
+    commandManager.addToList(FilterStartsWithNameCommand(collectionManager))
+    commandManager.addToList(GroupCountingByIdCommand(collectionManager))
+    commandManager.addToList(RemoveKeyCommand(collectionManager))
+
 
     println("Программа запущена")
     println("Файл: $fileName")
