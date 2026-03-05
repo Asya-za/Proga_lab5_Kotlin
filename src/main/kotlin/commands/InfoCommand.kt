@@ -9,7 +9,7 @@ class InfoCommand(private val collectionManager: CollectionManager) : Command {
 
     override fun execution(args: List<String>) {
         println("Тип коллекции: java.util.Hashtable")
-        println("Дата инициализации: ${collectionManager.Time}")
+        println("Дата инициализации: ${collectionManager.time}")
         println("Количество элементов: ${collectionManager.Size()}")
         //println("Файл: ${collectionManager.FileName}")
     }

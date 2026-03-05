@@ -1,0 +1,24 @@
+{
+  "1": {
+    "id": 1,
+    "name": "l,dc,c",
+    "coordinates": { "x": 10.5, "y": 20 },
+    "creationDate": "2026-03-05T22:50:00",
+    "age": 100,
+    "weight": 250.4,
+    "type": "FIRE",
+    "character": "WISE",
+    "head": { "eyesCount": 2, "toothCount": 80.0 }
+  },
+  "2": {
+    "id": 2,
+    "name": "slkcm",
+    "coordinates": { "x": 1.0, "y": 2 },
+    "creationDate": "2026-03-05T22:42:00",
+    "age": 50,
+    "weight": 150.0,
+    "type": "AIR",
+    "character": "GOOD",
+    "head": null
+  }
+}

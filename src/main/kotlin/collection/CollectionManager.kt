@@ -5,30 +5,31 @@ import java.time.LocalDateTime
 import java.util.Hashtable
 import com.google.gson.GsonBuilder
 import java.io.FileWriter
+import collection.FileManager
 
-class CollectionManager (val Time: LocalDateTime, val FileName: String) {
-    val Storage: Hashtable <Long, Dragon> = Hashtable()
+class CollectionManager (val time: LocalDateTime, val fileName: String) {
+    val storage: Hashtable <Long, Dragon> = Hashtable()
 
-    fun Size(): Int = Storage.size
+    fun Size(): Int = storage.size
 
     fun ShowAll() {
-        if (Storage.isEmpty()) {
+        if (storage.isEmpty()) {
             println("Коллекция пустая")
             return
         }
-        for (entry in Storage.entries) {
+        for (entry in storage.entries) {
             println("Ключ = ${entry.key}")
             println("Значение = ${entry.value}")
         }
     }
 
     fun clear() {
-        Storage.clear()
+        storage.clear()
     }
 
     fun removeByKey(key: Long) {
-        if (Storage.containsKey(key)) {
-            Storage.remove(key)
+        if (storage.containsKey(key)) {
+            storage.remove(key)
             println("Элемент удалён")
         } else {
             println("Ключ не найден")
@@ -36,7 +37,7 @@ class CollectionManager (val Time: LocalDateTime, val FileName: String) {
     }
 
     fun printAscending() {
-        val sortedList = Storage.values.sorted()
+        val sortedList = storage.values.sorted()
 
         if (sortedList.isEmpty()) {
             println("Элементы не найдены")
@@ -49,7 +50,7 @@ class CollectionManager (val Time: LocalDateTime, val FileName: String) {
     }
 
     fun filterStartsWithName(prefix: String) {
-        val filtered = Storage.values.filter { it.name.startsWith(prefix) }
+        val filtered = storage.values.filter { it.name.startsWith(prefix) }
 
         if (filtered.isEmpty()) {
             println("Элементы не найдены")
@@ -59,7 +60,7 @@ class CollectionManager (val Time: LocalDateTime, val FileName: String) {
     }
 
     fun groupCountingById() {
-        val grouped = Storage.values.groupingBy { it.id }.eachCount()
+        val grouped = storage.values.groupingBy { it.id }.eachCount()
 
         if (grouped.isEmpty()) {
             println("Коллекция пуста")
@@ -74,12 +75,31 @@ class CollectionManager (val Time: LocalDateTime, val FileName: String) {
 
     fun save() {
         try {
-            val fileWriter = FileWriter(FileName)
-            gson.toJson(Storage, fileWriter)
+            val fileWriter = FileWriter(fileName)
+            gson.toJson(storage, fileWriter)
             fileWriter.close()
             println("Коллекция сохранена")
         } catch (e: Exception) {
             println("Ошибка сохранения")
+        }
+    }
+
+    fun loadCollectionFromFile() {
+        val fileManager = FileManager(fileName)
+        val lines = fileManager.readfile()
+
+
+        for (l in lines) {
+            try {
+                val pair = fileManager.decode(l)
+                val key = pair.first
+                val dragon = pair.second
+
+                storage[key] = dragon
+            }
+            catch (e: Exception) {
+                println("Ошибка чтения строки:  $l")
+            }
         }
     }
 }
