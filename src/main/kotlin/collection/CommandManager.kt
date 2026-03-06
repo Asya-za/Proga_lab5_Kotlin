@@ -19,5 +19,5 @@ class CommandManager {
         return true
     }
 
-    fun allCommands(): List<Command> = commands.values.toList()
+    fun allCommands(): List<Command>     = commands.values.toList()
 }
