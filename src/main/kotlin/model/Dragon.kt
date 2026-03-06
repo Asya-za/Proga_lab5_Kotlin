@@ -15,7 +15,7 @@ data class Dragon(
 ) : Comparable<Dragon> {
 
     override fun compareTo(other: Dragon): Int {
-        return this.age.compareTo(other.age)
+        return this.id.compareTo(other.id)
     }
 
     init {

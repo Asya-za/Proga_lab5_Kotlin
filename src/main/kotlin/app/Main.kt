@@ -1,11 +1,20 @@
 package app
 
-import commands.*
+import commands.ExitCommand
+import commands.HelpCommand
+import commands.InfoCommand
+import commands.ShowCommand
+import commands.ClearCommand
+import commands.PrintAscendingCommand
+import commands.SaveCommand
 import collection.CollectionManager
 import collection.CommandManager
+import commands.FilterStartsWithNameCommand
+import commands.GroupCountingByIdCommand
+import commands.InsertCommand
+import commands.RemoveKeyCommand
 import java.time.LocalDateTime
 //import java.util.Scanner
-import collection.FileManager
 
 import java.io.PrintStream
 
@@ -19,21 +28,11 @@ fun main(args: Array<String>) {
     }
 
 
-
     val fileName = args[0]
-    val fileManager = FileManager(fileName)
-
     val initializationTime = LocalDateTime.now()
     val collectionManager = CollectionManager(initializationTime, fileName)
     val commandManager = CommandManager()
 
-    try{
-        collectionManager.loadCollectionFromFile(fileManager)
-        println("Коллекция загружена. Количество элементов: ${collectionManager.Size()}")
-    }
-    catch (e: Exception) {
-        println("Не удалось загрузить коллекцию: ${e.message}")
-    }
 
     commandManager.addToList(HelpCommand(commandManager))
     commandManager.addToList(InfoCommand(collectionManager))
@@ -43,6 +42,10 @@ fun main(args: Array<String>) {
     commandManager.addToList(PrintAscendingCommand(collectionManager))
     commandManager.addToList(SaveCommand(collectionManager))
     commandManager.addToList(InsertCommand(collectionManager))
+    commandManager.addToList(FilterStartsWithNameCommand(collectionManager))
+    commandManager.addToList(GroupCountingByIdCommand(collectionManager))
+    commandManager.addToList(RemoveKeyCommand(collectionManager))
+
 
     println("Программа запущена")
     println("Файл: $fileName")
@@ -62,7 +65,7 @@ fun main(args: Array<String>) {
 
         val isExecuted = commandManager.execution(nameCommand, commandArgs)
         if (!isExecuted) {
-            println("Команды $nameCommand нет \nВведите help")
+            println("Команды $nameCommand нет\nВведите help")
         }
     }
 }
