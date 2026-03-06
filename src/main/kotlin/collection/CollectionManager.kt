@@ -76,7 +76,10 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         }
     }
 
-    private val gson = GsonBuilder().create()
+    private val gson = GsonBuilder()
+        .registerTypeAdapter(LocalDateTime::class.java, FileManager.LocalDateTimeAdapter())
+        .setPrettyPrinting()
+        .create()
 
     fun save() {
         try {
@@ -85,7 +88,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             fileWriter.close()
             println("Коллекция сохранена")
         } catch (e: Exception) {
-            println("Ошибка сохранения")
+            println("Ошибка сохранения: ${e.message}")
         }
     }
 
@@ -95,6 +98,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         for ((key, dragon) in elements) {
             storage[key] = dragon
         }
+        updateNextId()
     }
 
     private var nextId: Int = 1
@@ -239,5 +243,23 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             character = character,
             head = DragonHead(eyesCount, toothCount)
         )
+    }
+
+    fun removeGreaterKey(key: Long) {
+        val keysToRemove = mutableListOf<Long>()
+        for (k in storage.keys) {
+            if (k > key) {
+                keysToRemove.add(k)
+            }
+        }
+        if (keysToRemove.isEmpty()) {
+            println("Нет элементов с ключом больше этого")
+            return
+        }
+        for (k in keysToRemove) {
+            storage.remove(k)
+        }
+
+        println("Удалено элементов: ${keysToRemove.size}")
     }
 }

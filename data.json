@@ -20,5 +20,22 @@
     "type": "AIR",
     "character": "GOOD",
     "head": null
+  },
+  "30": {
+    "id": 7,
+    "name": "Shadow",
+    "coordinates": {
+      "x": 3.1,
+      "y": 7
+    },
+    "creationDate": "2026-03-05T22:43:00",
+    "age": 120,
+    "weight": 300.2,
+    "type": "UNDERGROUND",
+    "character": "CHAOTIC",
+    "head": {
+      "eyesCount": 3,
+      "toothCount": 60.0
+    }
   }
 }
