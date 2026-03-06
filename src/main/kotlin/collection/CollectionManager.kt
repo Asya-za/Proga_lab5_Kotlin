@@ -112,12 +112,12 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         .setPrettyPrinting()
         .create()
 
-    fun save() {
+    fun save(fileName: String) {
         try {
             val fileWriter = FileWriter(fileName)
             gson.toJson(storage, fileWriter)
             fileWriter.close()
-            println("Коллекция сохранена")
+            println("Коллекция сохранена в файл: $fileName")
         } catch (e: Exception) {
             println("Ошибка сохранения: ${e.message}")
         }

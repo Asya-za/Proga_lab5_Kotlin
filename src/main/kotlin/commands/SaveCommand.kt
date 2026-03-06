@@ -8,6 +8,11 @@ class SaveCommand(private val collectionManager: CollectionManager) : Command {
     override val description = "сохранить коллекцию в файл"
 
     override fun execution(args: List<String>) {
-        collectionManager.save()
+        val fileName = args[0]
+        if (args.isEmpty()){
+            println("Ошибка: нужно указать имя файла")
+            return
+        }
+        collectionManager.save(fileName)
     }
 }
