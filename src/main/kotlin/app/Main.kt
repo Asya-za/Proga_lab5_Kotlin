@@ -44,6 +44,14 @@ fun main(args: Array<String>) {
     commandManager.addToList(SaveCommand(collectionManager))
     commandManager.addToList(InsertCommand(collectionManager))
     commandManager.addToList(UpdateCommand(collectionManager))
+    commandManager.addToList(RemoveGreaterKeyCommand(collectionManager))
+    commandManager.addToList(FilterStartsWithNameCommand(collectionManager))
+    commandManager.addToList(GroupCountingByIdCommand(collectionManager))
+    commandManager.addToList(RemoveGreaterCommand(collectionManager))
+    commandManager.addToList(RemoveKeyCommand(collectionManager))
+    commandManager.addToList(ReplaceIfGreaterCommand(collectionManager))
+    commandManager.addToList(ExecuteScriptCommand(collectionManager, commandManager))
+
 
     println("Программа запущена")
     println("Файл: $fileName")

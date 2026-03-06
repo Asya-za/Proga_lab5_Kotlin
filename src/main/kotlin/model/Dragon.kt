@@ -3,15 +3,15 @@ import java.time.LocalDateTime
 import exceptions.ValidationException
 
 data class Dragon(
-    val id: Int, // уникальное значение >0, не null, генерируется автоматически
-    val name: String, // не null, не пустая строка
-    val coordinates: Coordinates, // не null
-    val creationDate: LocalDateTime, // не null, генерируется автоматически
-    val age: Long, // >0
-    val weight: Double, // >0
-    val type: DragonType, // не null
-    val character: DragonCharacter, // не null
-    val head: DragonHead?
+    var id: Int, // уникальное значение >0, не null, генерируется автоматически
+    var name: String, // не null, не пустая строка
+    var coordinates: Coordinates, // не null
+    var creationDate: LocalDateTime, // не null, генерируется автоматически
+    var age: Long, // >0
+    var weight: Double, // >0
+    var type: DragonType, // не null
+    var character: DragonCharacter, // не null
+    var head: DragonHead?
 ) : Comparable<Dragon> {
 
     override fun compareTo(other: Dragon): Int {

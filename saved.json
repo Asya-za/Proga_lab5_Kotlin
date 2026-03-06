@@ -1,0 +1,19 @@
+{
+  "3": {
+    "id": 1,
+    "name": "dfc",
+    "coordinates": {
+      "x": 1.0,
+      "y": 3
+    },
+    "creationDate": "2026-03-06T20:05:27.249584400",
+    "age": 3,
+    "weight": 3.0,
+    "type": "WATER",
+    "character": "WISE",
+    "head": {
+      "eyesCount": 3,
+      "toothCount": 3.0
+    }
+  }
+}
