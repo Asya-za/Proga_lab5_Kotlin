@@ -127,9 +127,8 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
     fun loadCollectionFromFile(fileManager: FileManager) {
         val elements = fileManager.readCollection()
         for ((key, dragon) in elements) {
-            storage[key] = dragon
+            storage[key] = dragon.copy(id = nextId())
         }
-        updateNextId()
     }
 
     private var nextId: Int = 1
@@ -140,14 +139,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         return id
     }
 
-    fun updateNextId() {
-        var maxId = 0
-        for (dragon in storage.values) {
-            if (dragon.id > maxId) maxId = dragon.id
-        }
-        nextId = maxId + 1
-        if (nextId < 1) nextId = 1
-    }
+
 
     fun readLong(message: String): Long {
         while (true) {
@@ -156,7 +148,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
                 var value = readln().toLong()
                 return value
             } catch (e: NumberFormatException) {
-                println("Неверный ввод")
+                println("Неверный ввод, должно быть число типа Long")
             }
 
         }
@@ -169,7 +161,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
                 var value = readln().toInt()
                 return value
             } catch (e: NumberFormatException) {
-                println("Неверный ввод")
+                println("Неверный ввод, должно быть число типа Int")
             }
 
         }
@@ -182,7 +174,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
                 var value = readln().toFloat()
                 return value
             } catch (e: NumberFormatException) {
-                println("Неверный ввод")
+                println("Неверный ввод, должно быть число типа Float")
             }
         }
     }
@@ -194,7 +186,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
                 var value = readln().toDouble()
                 return value
             } catch (e: NumberFormatException) {
-                println("Неверный ввод")
+                println("Неверный ввод, должно быть число типа Double")
             }
 
         }
@@ -240,9 +232,9 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
 
         var type: DragonType
         while (true) {
-            println("Выберете тип дракона: WATER, UNDERGROUND, AIR, FIRE")
+            println("Выберете тип дракона: water,underground, air, fire")
             try {
-                type = DragonType.valueOf(readln())
+                type = DragonType.valueOf(readln().uppercase())
                 break
             } catch (e: Exception) {
                 println("Неверный тип дракона")
@@ -251,17 +243,26 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
 
         var character: DragonCharacter
         while (true) {
-            println("Выберете характер дракона: WISE, GOOD, CHAOTIC, CHAOTIC_EVIL, FICKLE")
+            println("Выберете характер дракона: wise, good, chaotic, chaotic_evil, fickle")
             try {
-                character = DragonCharacter.valueOf(readln())
+                character = DragonCharacter.valueOf(readln().uppercase())
                 break
             } catch (e: Exception) {
                 println("Неверный характер дракона")
             }
         }
 
-        val eyesCount = readInt("Введите количество глаз")
-        val toothCount = readDouble("Введите количество зубов")
+        println("Создать голову? yes/no")
+        val answer = readln().lowercase()
+        val head: DragonHead?
+        if (answer == "yes") {
+            val eyesCount = readInt("Введите количество глаз")
+            val toothCount = readDouble("Введите количество зубов")
+            head  = DragonHead(eyesCount, toothCount)
+        }
+        else {
+            head = null
+        }
 
         return Dragon(
             id = id,
@@ -272,7 +273,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             weight = weight,
             type = type,
             character = character,
-            head = DragonHead(eyesCount, toothCount)
+            head = head
         )
     }
 
