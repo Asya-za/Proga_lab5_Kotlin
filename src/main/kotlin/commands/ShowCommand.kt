@@ -8,6 +8,6 @@ class ShowCommand(private val collectionManager: CollectionManager) : Command {
     override val description = "вывести все элементы коллекции"
 
     override fun execution(args: List<String>) {
-        collectionManager.ShowAll()
+        collectionManager.showAll()
     }
 }

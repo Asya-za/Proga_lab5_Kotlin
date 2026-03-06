@@ -29,7 +29,7 @@ fun main(args: Array<String>) {
 
     try{
         collectionManager.loadCollectionFromFile()
-        println("Коллекция загружена. Элементов: ${collectionManager.Size()}")
+        println("Коллекция загружена. Элементов: ${collectionManager.size()}")
     }
     catch (e: Exception) {
         println("Не удалось загрузить коллекцию: ${e.message}")
