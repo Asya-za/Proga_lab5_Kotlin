@@ -1,5 +1,6 @@
 package model
 import java.time.LocalDateTime
+import exceptions.ValidationException
 
 data class Dragon(
     val id: Int, // уникальное значение >0, не null, генерируется автоматически
@@ -18,9 +19,15 @@ data class Dragon(
     }
 
     init {
-        require(id > 0) {"id должен быть больше нуля"}
-        require(name.isNotBlank()) {"имя не может быть пустым"}
-        require(age > 0) {"возраст должен быть больше нуля"}
-        require(weight > 0) {"weight должен быть больше нуля"}
+        if (name.isBlank()) {
+            throw ValidationException("Имя не может быть пустым")
+        }
+        if(age < 0) {
+            throw ValidationException("Возраст должен быть больше 0")
+        }
+        if (weight < 0) {
+            throw ValidationException("Вес должен быть больше 0")
+        }
+
     }
 }
