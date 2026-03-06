@@ -3,92 +3,100 @@ package collection
 import model.*
 import java.io.File
 import java.time.LocalDateTime
+import java.io.BufferedInputStream
+import com.google.gson.*
+import java.lang.reflect.Type
+
 
 class FileManager (private val fileName: String) {
-    fun readfile(): List<String> {
-        val file = File(fileName)
-        if (!file.exists()) {
-            return emptyList()
+
+    private val file = File(fileName)
+    private val gson: Gson = GsonBuilder().registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter()).create()
+
+
+
+    fun readfile(): String {
+        if (!file.canRead()){
+            throw IllegalStateException("Нет прав на чтение файла: $fileName")
         }
-
-        val lines = file.readLines(Charsets.UTF_8)
-        return lines.filter { it.isNotBlank() }
+        val inputStream = BufferedInputStream(file.inputStream())
+        val text = inputStream.bufferedReader().readText()
+        inputStream.close()
+        return text
     }
 
-    fun decode(line: String): Pair<Long, Dragon> {
-        val parts = line.split("line")
-        if (parts.size != 12) {
-            throw IllegalArgumentException("Неверный формат строки")
+    fun readCollection(): List<Pair<Long, Dragon>> {
+        val fileJson = readfile().trim() ////убираем пробелы и всякую такую шняжку
+        if (fileJson.isEmpty()) return emptyList()
+
+        try {
+            val root = gson.fromJson(fileJson, JsonElement::class.java)
+            if (root == null) {
+                return emptyList()
+            }
+
+            if (!root.isJsonObject) {
+                throw IllegalArgumentException("Неверный формат ввода")
+            }
+
+            return parseObjectFormat(root.asJsonObject)
         }
-
-        val key = parts[0].toLong()
-        val id = parts[1].toInt()
-        val name = parts[2]
-
-        val x = parts[3].toFloat()
-        val y = parts[4].toLong()
-
-        val age = parts[5].toLong()
-        val weight = parts[6].toDouble()
-        val creationDate = LocalDateTime.parse(parts[7])
-        val type = DragonType.valueOf(parts[8])
-        val charter = DragonCharacter.valueOf(parts[9])
-
-        val eyesCount = parts[10].toInt()
-        val toothCount = parts[11].toDouble()
-        val head = DragonHead(eyesCount, toothCount)
-
-        val dragon = Dragon(id, name, Coordinates(x, y), creationDate, age, weight, type, charter, head)
-
-        return Pair(key, dragon)
-    }
-
-    fun encode(key: Long, dragon: Dragon): String {
-        return listOf(key.toString(),
-            dragon.id.toString(),
-            dragon.name,
-            dragon.coordinates.x.toString(),
-            dragon.coordinates.y.toString(),
-            dragon.creationDate.toString(),
-            dragon.age.toString(),
-            dragon.weight.toString(),
-            dragon.type.toString(),
-            dragon.character.toString(),
-            dragon.head?.eyesCount.toString(),
-            dragon.head?.toothCount.toString()
-            ).joinToString(";")
-    }
-
-    private fun escape(s: String): String {
-        return s.replace("\\", "\\\\").replace(";", "\\;")
-    }
-    private fun unescape(s: String): String {
-        return s.replace("\\;", ";").replace("\\\\", "\\")
-    }
-
-
-    private fun split(line: String): List<String> {
-        val result = mutableListOf<String>()
-        var current = ""
-        var isBackslash = false
-
-        for (l in line) {
-            if (isBackslash) {
-                current += l
-                isBackslash = false
-            }
-            else if (l == '\\') {
-                isBackslash = true
-            }
-            else if (l == ';') {
-                result.add(current)
-                current = ""
-            } else {
-                current += l
-            }
+        catch (e: JsonParseException) {
+            throw IllegalArgumentException("Файл не является корректным JSON: ${e.message}")
         }
+    }
 
-        result.add(current)
+    private fun  parseObjectFormat (obj: JsonObject): List<Pair<Long, Dragon>> {
+        val result = mutableListOf<Pair<Long, Dragon>>()
+
+        for (entry in obj.entrySet()) {
+            val keyString = entry.key
+            val value = entry.value
+
+
+            val key = keyString.toLongOrNull()
+            if (key == null) {
+                throw IllegalArgumentException("Ключ '$keyString' должен быть числом")
+            }
+            val dragon = gson.fromJson(value, Dragon::class.java)
+            result.add(Pair(key, dragon))
+
+        }
         return result
+    }
+
+
+
+    private fun parseFormat(arr: JsonArray): List<Pair<Long, Dragon>> {
+        val result = mutableListOf<Pair<Long, Dragon>>()
+
+        for (element in arr) {
+            val obj = element.asJsonObject
+            val key = obj.get("key").asLong
+            val dragonJson = obj.get("dragon")
+
+            val dragon = gson.fromJson(dragonJson, Dragon::class.java)
+            result.add(Pair(key, dragon))
+        }
+        return result
+    }
+
+    class LocalDateTimeAdapter : JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
+        override fun serialize(
+            src: LocalDateTime?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement {
+            return JsonPrimitive(src.toString())
+        }
+
+        override fun deserialize(
+            json: JsonElement?,
+            typeOfT: Type?,
+            context: JsonDeserializationContext?
+        ): LocalDateTime {
+            val text = json?.asString ?: throw JsonParseException("Нет даты")
+            return LocalDateTime.parse(text)
+        }
     }
 }
