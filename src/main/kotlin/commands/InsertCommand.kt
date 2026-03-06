@@ -34,7 +34,7 @@ class InsertCommand(private val collectionManager: CollectionManager): Command {
 
         try {
             val dragon = collectionManager.createDragon(collectionManager.nextId())
-            collectionManager.storage[key] = dragon
+                collectionManager.storage[key] = dragon
             println("Дракон добавлен")
         }
         catch (e: ValidationException) {
