@@ -28,8 +28,8 @@ fun main(args: Array<String>) {
     val commandManager = CommandManager()
 
     try{
-        collectionManager.loadCollectionFromFile()
-        println("Коллекция загружена. Элементов: ${collectionManager.Size()}")
+        collectionManager.loadCollectionFromFile(fileManager)
+        println("Коллекция загружена. Количество элементов: ${collectionManager.Size()}")
     }
     catch (e: Exception) {
         println("Не удалось загрузить коллекцию: ${e.message}")

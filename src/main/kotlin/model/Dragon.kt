@@ -22,10 +22,10 @@ data class Dragon(
         if (name.isBlank()) {
             throw ValidationException("Имя не может быть пустым")
         }
-        if(age < 0) {
+        if(age <= 0) {
             throw ValidationException("Возраст должен быть больше 0")
         }
-        if (weight < 0) {
+        if (weight <= 0) {
             throw ValidationException("Вес должен быть больше 0")
         }
 

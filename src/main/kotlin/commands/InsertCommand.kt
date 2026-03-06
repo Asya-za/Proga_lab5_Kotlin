@@ -123,7 +123,7 @@ class InsertCommand (private val collectionManager: CollectionManager): Command 
 
         try {
             val dragon = Dragon(
-                id = 1,
+                id = collectionManager.nextId(),
                 name = nameDragon,
                 coordinates = Coordinates(x, y),
                 creationDate = LocalDateTime.now(),

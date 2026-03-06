@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder
 import java.io.FileWriter
 import collection.FileManager
 
+
 class CollectionManager (val time: LocalDateTime, val fileName: String) {
     val storage: Hashtable <Long, Dragon> = Hashtable()
 
@@ -84,22 +85,28 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         }
     }
 
-    fun loadCollectionFromFile() {
-        val fileManager = FileManager(fileName)
-        val lines = fileManager.readfile()
 
-
-        for (l in lines) {
-            try {
-                val pair = fileManager.decode(l)
-                val key = pair.first
-                val dragon = pair.second
-
-                storage[key] = dragon
-            }
-            catch (e: Exception) {
-                println("Ошибка чтения строки:  $l")
-            }
+    fun loadCollectionFromFile(fileManager: FileManager) {
+        val elements = fileManager.readCollection()
+        for ((key, dragon) in elements) {
+            storage[key] = dragon
         }
+    }
+
+    private var nextId: Int = 1
+    fun size(): Int = storage.size
+    fun nextId(): Int {
+        val id = nextId
+        nextId++
+        return id
+    }
+
+    fun updateNextId() {
+        var maxId = 0
+        for (dragon in storage.values) {
+            if (dragon.id > maxId) maxId = dragon.id
+        }
+        nextId = maxId + 1
+        if (nextId < 1) nextId = 1
     }
 }
