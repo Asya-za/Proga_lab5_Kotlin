@@ -45,6 +45,8 @@ fun main(args: Array<String>) {
     commandManager.addToList(InsertCommand(collectionManager))
     commandManager.addToList(UpdateCommand(collectionManager))
     commandManager.addToList(RemoveGreaterKeyCommand(collectionManager))
+    commandManager.addToList(RemoveGreaterCommand(collectionManager))
+    commandManager.addToList(ReplaceIfGreaterCommand(collectionManager))
 
     println("Программа запущена")
     println("Файл: $fileName")

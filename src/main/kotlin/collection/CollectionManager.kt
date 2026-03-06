@@ -42,15 +42,46 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
     }
 
     fun printAscending() {
-        val sortedList = storage.values.sorted()
-
-        if (sortedList.isEmpty()) {
+        if (storage.isEmpty()) {
             println("Элементы не найдены")
-        } else {
-            for (dragon in sortedList) {
-                println(dragon)
-            }
+            return
+        }
 
+        println("По какому параметру сортировать (id, x, y, creationDate, age, weight, eyesCount, toothCount)?")
+        val param = readln()
+        var sortedList = storage.values.toList()
+
+        if (param == "id") {
+            sortedList = storage.values.sortedBy { it.id }
+        }
+        else if (param == "x") {
+            sortedList = storage.values.sortedBy { it.coordinates.x }
+        }
+        else if (param == "y") {
+            sortedList = storage.values.sortedBy { it.coordinates.y }
+        }
+        else if (param == "creationDate") {
+            sortedList = storage.values.sortedBy { it.creationDate }
+        }
+        else if (param == "age") {
+            sortedList = storage.values.sortedBy { it.age }
+        }
+        else if (param == "weight") {
+            sortedList = storage.values.sortedBy { it.weight }
+        }
+        else if (param == "eyesCount") {
+            sortedList = storage.values.sortedBy { it.head?.eyesCount }
+        }
+        else if (param == "toothCount") {
+            sortedList = storage.values.sortedBy { it.head?.toothCount }
+        }
+        else {
+            println("Неверный параметр")
+            return
+        }
+
+        for (dragon in sortedList) {
+            println(dragon)
         }
     }
 
@@ -261,5 +292,168 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         }
 
         println("Удалено элементов: ${keysToRemove.size}")
+    }
+
+    fun removeGreater() {
+        if (storage.isEmpty()) {
+            println("Коллекция пуста")
+            return
+        }
+
+        println("По какому параметру сравнивать (id, x, y, toothCount, age, weight, eyesCount)?")
+
+        val param = readln()
+
+        println("Введите значение для сравнения")
+
+        val value = readln().toDouble()
+        val keysToRemove = mutableListOf<Long>()
+
+        for ((key, dragon) in storage) {
+
+            if (param == "id") {
+                if (dragon.id > value) {
+                    keysToRemove.add(key)
+                }
+            }
+
+            else if (param == "x") {
+                if (dragon.coordinates.x > value) {
+                    keysToRemove.add(key)
+                }
+            }
+
+            else if (param == "y") {
+                if (dragon.coordinates.y > value) {
+                    keysToRemove.add(key)
+                }
+            }
+
+            else if (param == "toothCount") {
+                if ((dragon.head?.toothCount ?: 0.0) > value) {
+                    keysToRemove.add(key)
+                }
+            }
+
+            else if (param == "age") {
+                if (dragon.age > value) {
+                    keysToRemove.add(key)
+                }
+            }
+
+            else if (param == "weight") {
+                if (dragon.weight > value) {
+                    keysToRemove.add(key)
+                }
+            }
+
+            else if (param == "eyesCount") {
+                if ((dragon.head?.eyesCount ?: 0) > value) {
+                    keysToRemove.add(key)
+                }
+            }
+
+            else {
+                println("Неверный параметр")
+                return
+            }
+        }
+
+        for (k in keysToRemove) {
+            storage.remove(k)
+        }
+
+        println("Удалено элементов: ${keysToRemove.size}")
+    }
+
+    fun replaceIfGreater() {
+
+        if (storage.isEmpty()) {
+            println("Коллекция пуста")
+            return
+        }
+
+        println("Введите ключ элемента для замены:")
+        val key = readln().toLong()
+        val current = storage[key]
+        if (current == null) {
+            println("Элемент с таким ключом не найден")
+            return
+        }
+
+        println("По какому параметру сравнивать (id, x, y, toothCount, age, weight, eyesCount)?")
+        val param = readln()
+
+        var isReplaced = false
+
+        if (param == "id") {
+            val value = readInt("Введите новое значение id")
+            if (value > current.id) {
+                current.id = value
+                isReplaced = true
+            }
+        }
+        else if (param == "x") {
+            val value = readFloat("Введите новое значение x")
+            if (value > current.coordinates.x) {
+                current.coordinates.x = value
+                isReplaced = true
+            }
+        }
+        else if (param == "y") {
+            val value = readLong("Введите новое значение y")
+            if (value > current.coordinates.y) {
+                current.coordinates.y = value
+                isReplaced = true
+            }
+        }
+        else if (param == "age") {
+            val value = readLong("Введите новый возраст")
+            if (value > current.age) {
+                current.age = value
+                isReplaced = true
+            }
+        }
+        else if (param == "weight") {
+            val value = readDouble("Введите новый вес")
+            if (value > current.weight) {
+                current.weight = value
+                isReplaced = true
+            }
+        }
+        else if (param == "eyesCount") {
+            val value = readInt("Введите новое количество глаз")
+            val head = current.head
+            if (head == null) {
+                println("У элемента нет головы")
+                return
+            }
+            if (value > head.eyesCount) {
+                head.eyesCount = value
+                isReplaced = true
+            }
+        }
+        else if (param == "toothCount") {
+            val value = readDouble("Введите новое количество зубов")
+            val head = current.head
+            if (head == null) {
+                println("У элемента нет головы")
+                return
+            }
+            if (value > head.toothCount) {
+                head.toothCount = value
+                isReplaced = true
+            }
+        }
+        else {
+            println("Неверный параметр")
+            return
+        }
+
+        if (isReplaced) {
+            println("Элемент успешно заменён")
+        } else {
+            println("Новое значение не больше старого, замена не выполнена")
+        }
     }
 }
