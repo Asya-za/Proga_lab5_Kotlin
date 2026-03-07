@@ -384,19 +384,12 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             return
         }
 
-        println("По какому параметру сравнивать (id, x, y, toothCount, age, weight, eyesCount)?")
+        println("По какому параметру сравнивать (x, y, toothCount, age, weight, eyesCount)?")
         val param = readln()
 
         var isReplaced = false
 
-        if (param == "id") {
-            val value = readInt("Введите новое значение id")
-            if (value > current.id) {
-                current.id = value
-                isReplaced = true
-            }
-        }
-        else if (param == "x") {
+        if (param == "x") {
             val value = readFloat("Введите новое значение x")
             if (value > current.coordinates.x) {
                 current.coordinates.x = value
