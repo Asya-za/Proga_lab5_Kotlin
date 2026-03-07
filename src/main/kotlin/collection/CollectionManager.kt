@@ -147,7 +147,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         while (true) {
             println(message)
             try {
-                var value = readln().toLong()
+                var value = scanner.nextLine().toLong()
                 return value
             } catch (e: NumberFormatException) {
                 println("Неверный ввод, должно быть число типа Long")
@@ -160,7 +160,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         while (true) {
             println(message)
             try {
-                var value = readln().toInt()
+                var value = scanner.nextLine().toInt()
                 return value
             } catch (e: NumberFormatException) {
                 println("Неверный ввод, должно быть число типа Int")
@@ -173,7 +173,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         while (true) {
             println(message)
             try {
-                var value = readln().toFloat()
+                var value = scanner.nextLine().toFloat()
                 return value
             } catch (e: NumberFormatException) {
                 println("Неверный ввод, должно быть число типа Float")
@@ -185,7 +185,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         while (true) {
             println(message)
             try {
-                var value = readln().toDouble()
+                var value = scanner.nextLine().toDouble()
                 return value
             } catch (e: NumberFormatException) {
                 println("Неверный ввод, должно быть число типа Double")
@@ -225,7 +225,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
     fun createDragon(id: Int): Dragon {
 
         println("Введите имя")
-        val nameDragon = readln()
+        val nameDragon = scanner.nextLine()
 
         val x = readFloat("Введите коррдинату x")
         val y = readLong("Введите коррдинату y")
@@ -236,7 +236,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         while (true) {
             println("Выберете тип дракона: water,underground, air, fire")
             try {
-                type = DragonType.valueOf(readln().uppercase())
+                type = DragonType.valueOf(scanner.nextLine().uppercase())
                 break
             } catch (e: Exception) {
                 println("Неверный тип дракона")
@@ -247,7 +247,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         while (true) {
             println("Выберете характер дракона: wise, good, chaotic, chaotic_evil, fickle")
             try {
-                character = DragonCharacter.valueOf(readln().uppercase())
+                character = DragonCharacter.valueOf(scanner.nextLine().uppercase())
                 break
             } catch (e: Exception) {
                 println("Неверный характер дракона")
@@ -255,7 +255,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         }
 
         println("Создать голову? yes/no")
-        val answer = readln().lowercase()
+        val answer = scanner.nextLine().lowercase()
         val head: DragonHead?
         if (answer == "yes") {
             val eyesCount = readInt("Введите количество глаз")
@@ -479,7 +479,9 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
 
         executingScripts.add(fileName)
 
-        val scanner = Scanner(file)
+        val oldScanner = scanner
+        scanner = Scanner(file)
+
         while (scanner.hasNextLine()) {
             val line = scanner.nextLine().trim()
             if (line.isEmpty()) continue
@@ -493,7 +495,9 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
                 println("Неизвестная команда: $commandName")
             }
         }
-
+        scanner = oldScanner
         executingScripts.remove(fileName)
     }
+
+    var scanner: Scanner = Scanner(System.`in`)
 }
