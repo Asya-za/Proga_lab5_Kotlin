@@ -60,7 +60,7 @@ fun main(args: Array<String>) {
 
     try {
         while (true) {
-
+            print("> ")
             val line = readLine()
 
             if (line == null) {
