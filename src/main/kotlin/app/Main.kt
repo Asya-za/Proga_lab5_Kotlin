@@ -4,8 +4,9 @@ import commands.*
 import collection.CollectionManager
 import collection.CommandManager
 import java.time.LocalDateTime
-//import java.util.Scanner
+import java.util.Scanner
 import collection.FileManager
+import exceptions.ExitException
 
 import java.io.PrintStream
 
@@ -57,27 +58,28 @@ fun main(args: Array<String>) {
     println("Файл: $fileName")
 
 
+    try {
+        while (true) {
 
-    while (true) {
+            val line = readLine()
 
-        val line = readLine()
+            if (line == null) {
+                println("Получен EOF (Ctrl+D). Завершение программы")
+                break
+            }
 
-        if (line == null) {
-            println("Получен EOF (Ctrl+D). Завершение программы")
-            break
+            val trimmedLine = line.trim()
+            if (trimmedLine.isEmpty()) continue
+
+            val commandDecoding = trimmedLine.split(Regex("\\s+"))
+            val nameCommand = commandDecoding[0]
+            val commandArgs = commandDecoding.drop(1)
+
+            val isExecuted = commandManager.execution(nameCommand, commandArgs)
+
+            if (!isExecuted) {
+                println("Команды $nameCommand нет \nВведите help")
+            }
         }
-
-        val trimmedLine = line.trim()
-        if (trimmedLine.isEmpty()) continue
-
-        val commandDecoding = trimmedLine.split(Regex("\\s+"))
-        val nameCommand = commandDecoding[0]
-        val commandArgs = commandDecoding.drop(1)
-
-        val isExecuted = commandManager.execution(nameCommand, commandArgs)
-
-        if (!isExecuted) {
-            println("Команды $nameCommand нет \nВведите help")
-        }
-    }
+    } catch (e: ExitException) {}
 }

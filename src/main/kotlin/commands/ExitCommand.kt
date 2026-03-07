@@ -1,4 +1,5 @@
 package commands
+import exceptions.ExitException
 
 import kotlin.system.exitProcess
 
@@ -8,6 +9,6 @@ class ExitCommand : Command {
 
     override fun execution(args: List<String>) {
         println("Программа завершена")
-        exitProcess(0)
+        throw ExitException()
     }
 }
