@@ -58,18 +58,24 @@ fun main(args: Array<String>) {
 
 
 
-    //val scan = Scanner(System.`in`)
     while (true) {
-        //if (!scan.hasNextLine()) break
-        val line = readln().trim() ///убираем пррбелы
 
-        if (line.isEmpty()) continue
+        val line = readLine()
 
-        val commandDecoding = line.split(Regex("\\s+"))
+        if (line == null) {
+            println("Получен EOF (Ctrl+D). Завершение программы")
+            break
+        }
+
+        val trimmedLine = line.trim()
+        if (trimmedLine.isEmpty()) continue
+
+        val commandDecoding = trimmedLine.split(Regex("\\s+"))
         val nameCommand = commandDecoding[0]
         val commandArgs = commandDecoding.drop(1)
 
         val isExecuted = commandManager.execution(nameCommand, commandArgs)
+
         if (!isExecuted) {
             println("Команды $nameCommand нет \nВведите help")
         }
