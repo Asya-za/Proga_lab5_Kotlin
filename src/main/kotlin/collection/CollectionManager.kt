@@ -50,7 +50,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         }
 
         println("По какому параметру сортировать (id, x, y, creationDate, age, weight, eyesCount, toothCount)?")
-        val param = readln()
+        val param = scanner.nextLine()
         var sortedList = storage.values.toList()
 
         if (param == "id") {
@@ -305,11 +305,11 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
 
         println("По какому параметру сравнивать (id, x, y, toothCount, age, weight, eyesCount)?")
 
-        val param = readln()
+        val param = scanner.nextLine()
 
         println("Введите значение для сравнения")
 
-        val value = readln().toDouble()
+        val value = scanner.nextLine().toDouble()
         val keysToRemove = mutableListOf<Long>()
 
         for ((key, dragon) in storage) {
@@ -377,7 +377,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         }
 
         println("Введите ключ элемента для замены:")
-        val key = readln().toLong()
+        val key = scanner.nextLine().toLong()
         val current = storage[key]
         if (current == null) {
             println("Элемент с таким ключом не найден")
@@ -385,7 +385,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         }
 
         println("По какому параметру сравнивать (x, y, toothCount, age, weight, eyesCount)?")
-        val param = readln()
+        val param = scanner.nextLine()
 
         var isReplaced = false
 
