@@ -10,6 +10,8 @@ import model.Coordinates
 import model.DragonCharacter
 import model.DragonHead
 import model.DragonType
+import java.io.File
+import java.util.Scanner
 
 
 class CollectionManager (val time: LocalDateTime, val fileName: String) {
@@ -456,5 +458,42 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         } else {
             println("Новое значение не больше старого, замена не выполнена")
         }
+    }
+
+    companion object {
+        private val executingScripts = mutableSetOf<String>()
+    }
+
+    fun executeScript(fileName: String, commandManager: CommandManager) {
+
+        if (executingScripts.contains(fileName)) {
+            println("Обнаружена рекурсия! Скрипт уже выполняется.")
+            return
+        }
+
+        val file = File(fileName)
+        if (!file.exists() || !file.isFile) {
+            println("Файл не найден: $fileName")
+            return
+        }
+
+        executingScripts.add(fileName)
+
+        val scanner = Scanner(file)
+        while (scanner.hasNextLine()) {
+            val line = scanner.nextLine().trim()
+            if (line.isEmpty()) continue
+
+            val parts = line.split("\\s+".toRegex())
+            val commandName = parts[0]
+            val arguments = parts.drop(1)  // ВСЕ остальные слова в одной строке — это args
+
+            val success = commandManager.execution(commandName, arguments)
+            if (!success) {
+                println("Неизвестная команда: $commandName")
+            }
+        }
+
+        executingScripts.remove(fileName)
     }
 }

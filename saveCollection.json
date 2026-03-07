@@ -1,17 +1,4 @@
 {
-  "87": {
-    "id": 6,
-    "name": "dgss",
-    "coordinates": {
-      "x": 45.0,
-      "y": 36
-    },
-    "creationDate": "2026-03-06T23:28:43.954128500",
-    "age": 234,
-    "weight": 34.0,
-    "type": "AIR",
-    "character": "WISE"
-  },
   "30": {
     "id": 1,
     "name": "Shadow",
@@ -56,7 +43,7 @@
     "character": "GOOD"
   },
   "56": {
-    "id": 5,
+    "id": 4,
     "name": "4",
     "coordinates": {
       "x": 43.0,
@@ -71,18 +58,5 @@
       "eyesCount": 8,
       "toothCount": 8.0
     }
-  },
-  "67": {
-    "id": 4,
-    "name": "ghjk",
-    "coordinates": {
-      "x": 7.0,
-      "y": 689
-    },
-    "creationDate": "2026-03-06T23:03:52.495944400",
-    "age": 79,
-    "weight": 6686.0,
-    "type": "AIR",
-    "character": "GOOD"
   }
 }
