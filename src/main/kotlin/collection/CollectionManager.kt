@@ -457,7 +457,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         private val executingScripts = mutableSetOf<String>()
     }
 
-    fun executeScript(fileName: String, commandManager: CommandManager) {
+    fun executeScript(fileName: String) {
 
         if (executingScripts.contains(fileName)) {
             println("Обнаружена рекурсия! Скрипт уже выполняется.")
@@ -465,6 +465,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         }
 
         val file = File(fileName)
+
         if (!file.exists() || !file.isFile) {
             println("Файл не найден: $fileName")
             return
@@ -472,25 +473,9 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
 
         executingScripts.add(fileName)
 
-        val oldScanner = scanner
         scanner = Scanner(file)
-
-        while (scanner.hasNextLine()) {
-            val line = scanner.nextLine().trim()
-            if (line.isEmpty()) continue
-
-            val parts = line.split("\\s+".toRegex())
-            val commandName = parts[0]
-            val arguments = parts.drop(1)  // ВСЕ остальные слова в одной строке — это args
-
-            val success = commandManager.execution(commandName, arguments)
-            if (!success) {
-                println("Неизвестная команда: $commandName")
-            }
-        }
-        scanner = oldScanner
-        executingScripts.remove(fileName)
     }
 
     var scanner: Scanner = Scanner(System.`in`)
+    val consoleScanner = scanner
 }

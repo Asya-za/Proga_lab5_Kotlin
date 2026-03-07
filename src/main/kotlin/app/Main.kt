@@ -60,18 +60,21 @@ fun main(args: Array<String>) {
 
     try {
         while (true) {
-            print("> ")
-            val line = readLine()
+            if (collectionManager.scanner == collectionManager.consoleScanner) {
+                print("> ")
+                System.out.flush()
+            }
 
-            if (line == null) {
-                println("Получен EOF (Ctrl+D). Завершение программы")
+            if (!collectionManager.scanner.hasNextLine()) {
+                println("Конец ввода")
                 break
             }
 
-            val trimmedLine = line.trim()
-            if (trimmedLine.isEmpty()) continue
+            val line = collectionManager.scanner.nextLine()
 
-            val commandDecoding = trimmedLine.split(Regex("\\s+"))
+            if (line.isEmpty()) continue
+
+            val commandDecoding = line.split(Regex("\\s+"))
             val nameCommand = commandDecoding[0]
             val commandArgs = commandDecoding.drop(1)
 

@@ -19,6 +19,6 @@ class ExecuteScriptCommand(
         }
 
         val fileName = args[0]
-        collectionManager.executeScript(fileName, commandManager)
+        collectionManager.executeScript(fileName)
     }
 }
