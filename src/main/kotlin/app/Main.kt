@@ -7,6 +7,7 @@ import java.time.LocalDateTime
 import java.util.Scanner
 import collection.FileManager
 import exceptions.ExitException
+import io.IOManager
 
 import java.io.PrintStream
 
@@ -25,52 +26,46 @@ fun main(args: Array<String>) {
     val fileManager = FileManager(fileName)
 
     val initializationTime = LocalDateTime.now()
-    val collectionManager = CollectionManager(initializationTime, fileName)
+    val io = IOManager()
+    val collectionManager = CollectionManager(initializationTime, fileName, io)
     val commandManager = CommandManager()
 
     try{
         collectionManager.loadCollectionFromFile(fileManager)
-        println("Коллекция загружена. Количество элементов: ${collectionManager.Size()}")
+        io.println("Коллекция загружена. Количество элементов: ${collectionManager.Size()}")
     }
     catch (e: Exception) {
-        println("Не удалось загрузить коллекцию: ${e.message}")
+        io.println("Не удалось загрузить коллекцию: ${e.message}")
     }
 
-    commandManager.addToList(HelpCommand(commandManager))
-    commandManager.addToList(InfoCommand(collectionManager))
+    commandManager.addToList(HelpCommand(commandManager, io))
+    commandManager.addToList(InfoCommand(collectionManager, io))
     commandManager.addToList(ShowCommand(collectionManager))
-    commandManager.addToList(ExitCommand())
-    commandManager.addToList(ClearCommand(collectionManager))
+    commandManager.addToList(ExitCommand(io))
+    commandManager.addToList(ClearCommand(collectionManager, io))
     commandManager.addToList(PrintAscendingCommand(collectionManager))
-    commandManager.addToList(SaveCommand(collectionManager))
-    commandManager.addToList(InsertCommand(collectionManager))
-    commandManager.addToList(UpdateCommand(collectionManager))
-    commandManager.addToList(RemoveGreaterKeyCommand(collectionManager))
-    commandManager.addToList(FilterStartsWithNameCommand(collectionManager))
+    commandManager.addToList(SaveCommand(collectionManager, io))
+    commandManager.addToList(InsertCommand(collectionManager, io))
+    commandManager.addToList(UpdateCommand(collectionManager, io))
+    commandManager.addToList(RemoveGreaterKeyCommand(collectionManager, io))
+    commandManager.addToList(FilterStartsWithNameCommand(collectionManager, io))
     commandManager.addToList(GroupCountingByIdCommand(collectionManager))
     commandManager.addToList(RemoveGreaterCommand(collectionManager))
-    commandManager.addToList(RemoveKeyCommand(collectionManager))
+    commandManager.addToList(RemoveKeyCommand(collectionManager, io))
     commandManager.addToList(ReplaceIfGreaterCommand(collectionManager))
-    commandManager.addToList(ExecuteScriptCommand(collectionManager, commandManager))
+    commandManager.addToList(ExecuteScriptCommand(collectionManager, commandManager, io))
 
 
-    println("Программа запущена")
-    println("Файл: $fileName")
+    io.println("Программа запущена")
+    io.println("Файл: $fileName")
 
 
     try {
         while (true) {
-            if (collectionManager.scanner == collectionManager.consoleScanner) {
-                print("> ")
-                System.out.flush()
-            }
+            print("> ")
+            System.out.flush()
 
-            if (!collectionManager.scanner.hasNextLine()) {
-                println("Конец ввода")
-                break
-            }
-
-            val line = collectionManager.scanner.nextLine()
+            val line = io.readLine()
 
             if (line.isEmpty()) continue
 
@@ -81,7 +76,7 @@ fun main(args: Array<String>) {
             val isExecuted = commandManager.execution(nameCommand, commandArgs)
 
             if (!isExecuted) {
-                println("Команды $nameCommand нет \nВведите help")
+                io.println("Команды $nameCommand нет \nВведите help")
             }
         }
     } catch (e: ExitException) {}

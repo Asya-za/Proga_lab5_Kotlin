@@ -1,8 +1,9 @@
 package commands
 
 import collection.CollectionManager
+import io.IOManager
 
-class RemoveKeyCommand(private val collectionManager: CollectionManager) : Command {
+class RemoveKeyCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
 
     override val name = "remove_key"
     override val description = "удалить элемент по ключу"
@@ -10,7 +11,7 @@ class RemoveKeyCommand(private val collectionManager: CollectionManager) : Comma
     override fun execution(args: List<String>) {
 
         if (args.isEmpty()) {
-            println("Введите ключ")
+            io.println("Введите ключ")
             return
         }
 

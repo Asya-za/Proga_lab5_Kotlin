@@ -1,14 +1,15 @@
 package commands
 
 import collection.CollectionManager
+import io.IOManager
 
-class ClearCommand(private val collectionManager: CollectionManager) : Command {
+class ClearCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
 
     override val name = "clear"
     override val description = "очистить коллекцию"
 
     override fun execution(args: List<String>) {
         collectionManager.clear()
-        println("Коллекция очищена")
+        io.println("Коллекция очищена")
     }
 }

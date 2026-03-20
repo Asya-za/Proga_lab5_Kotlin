@@ -1,8 +1,9 @@
 package commands
 
 import collection.CollectionManager
+import io.IOManager
 
-class FilterStartsWithNameCommand(private val collectionManager: CollectionManager) : Command {
+class FilterStartsWithNameCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
 
     override val name = "filter_starts_with_name"
     override val description = "вывести элементы, имя которых начинается с подстроки"
@@ -10,7 +11,7 @@ class FilterStartsWithNameCommand(private val collectionManager: CollectionManag
     override fun execution(args: List<String>) {
 
         if (args.isEmpty()) {
-            println("Введите строку")
+            io.println("Введите строку")
             return
         }
 

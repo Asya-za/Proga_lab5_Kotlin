@@ -6,27 +6,27 @@ import java.util.Hashtable
 import com.google.gson.GsonBuilder
 import java.io.FileWriter
 import collection.FileManager
+import io.IOManager
 import model.Coordinates
 import model.DragonCharacter
 import model.DragonHead
 import model.DragonType
 import java.io.File
-import java.util.Scanner
 
 
-class CollectionManager (val time: LocalDateTime, val fileName: String) {
+class CollectionManager (val time: LocalDateTime, val fileName: String, private val io: IOManager) {
     val storage: Hashtable<Long, Dragon> = Hashtable()
 
     fun Size(): Int = storage.size
 
     fun ShowAll() {
         if (storage.isEmpty()) {
-            println("Коллекция пустая")
+            io.println("Коллекция пустая")
             return
         }
         for (entry in storage.entries) {
-            println("Ключ = ${entry.key}")
-            println("Значение = ${entry.value}")
+            io.println("Ключ = ${entry.key}")
+            io.println("Значение = ${entry.value}")
         }
     }
 
@@ -37,20 +37,20 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
     fun removeByKey(key: Long) {
         if (storage.containsKey(key)) {
             storage.remove(key)
-            println("Элемент удалён")
+            io.println("Элемент удалён")
         } else {
-            println("Ключ не найден")
+            io.println("Ключ не найден")
         }
     }
 
     fun printAscending() {
         if (storage.isEmpty()) {
-            println("Элементы не найдены")
+            io.println("Элементы не найдены")
             return
         }
 
-        println("По какому параметру сортировать (id, x, y, creationDate, age, weight, eyesCount, toothCount)?")
-        val param = scanner.nextLine()
+        io.println("По какому параметру сортировать (id, x, y, creationDate, age, weight, eyesCount, toothCount)?")
+        val param = io.readLine()
         var sortedList = storage.values.toList()
 
         if (param == "id") {
@@ -78,12 +78,12 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             sortedList = storage.values.sortedBy { it.head?.toothCount }
         }
         else {
-            println("Неверный параметр")
+            io.println("Неверный параметр")
             return
         }
 
         for (dragon in sortedList) {
-            println(dragon)
+            io.println(dragon.toString())
         }
     }
 
@@ -91,7 +91,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         val filtered = storage.values.filter { it.name.startsWith(prefix) }
 
         if (filtered.isEmpty()) {
-            println("Элементы не найдены")
+            io.println("Элементы не найдены")
         } else {
             filtered.forEach { println(it) }
         }
@@ -101,10 +101,10 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         val grouped = storage.values.groupingBy { it.id }.eachCount()
 
         if (grouped.isEmpty()) {
-            println("Коллекция пуста")
+            io.println("Коллекция пуста")
         } else {
             grouped.forEach { (id, count) ->
-                println("ID: $id -> количество: $count")
+                io.println("ID: $id -> количество: $count")
             }
         }
     }
@@ -119,9 +119,9 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             val fileWriter = FileWriter(fileName)
             gson.toJson(storage, fileWriter)
             fileWriter.close()
-            println("Коллекция сохранена в файл: $fileName")
+            io.println("Коллекция сохранена в файл: $fileName")
         } catch (e: Exception) {
-            println("Ошибка сохранения: ${e.message}")
+            io.println("Ошибка сохранения: ${e.message}")
         }
     }
 
@@ -145,9 +145,9 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
 
     fun readLong(message: String): Long {
         while (true) {
-            println(message)
+            io.println(message)
             try {
-                var value = scanner.nextLine().toLong()
+                var value = io.readLine().toLong()
                 return value
             } catch (e: NumberFormatException) {
                 println("Неверный ввод, должно быть число типа Long")
@@ -158,12 +158,12 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
 
     fun readInt(message: String): Int {
         while (true) {
-            println(message)
+            io.println(message)
             try {
-                var value = scanner.nextLine().toInt()
+                var value = io.readLine().toInt()
                 return value
             } catch (e: NumberFormatException) {
-                println("Неверный ввод, должно быть число типа Int")
+                io.println("Неверный ввод, должно быть число типа Int")
             }
 
         }
@@ -171,24 +171,24 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
 
     fun readFloat(message: String): Float {
         while (true) {
-            println(message)
+            io.println(message)
             try {
-                var value = scanner.nextLine().toFloat()
+                var value = io.readLine().toFloat()
                 return value
             } catch (e: NumberFormatException) {
-                println("Неверный ввод, должно быть число типа Float")
+                io.println("Неверный ввод, должно быть число типа Float")
             }
         }
     }
 
     fun readDouble(message: String): Double {
         while (true) {
-            println(message)
+            io.println(message)
             try {
-                var value = scanner.nextLine().toDouble()
+                var value = io.readLine().toDouble()
                 return value
             } catch (e: NumberFormatException) {
-                println("Неверный ввод, должно быть число типа Double")
+                io.println("Неверный ввод, должно быть число типа Double")
             }
 
         }
@@ -209,7 +209,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         }
 
         if (keyToUpdate == null || oldDragon == null) {
-            println("Элемент с таким id не найден")
+            io.println("Элемент с таким id не найден")
             return
         }
 
@@ -219,13 +219,13 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
         )
 
         storage[keyToUpdate] = updatedDragon
-        println("Элемент обновлён")
+        io.println("Элемент обновлён")
     }
 
     fun createDragon(id: Int): Dragon {
 
-        println("Введите имя")
-        val nameDragon = scanner.nextLine()
+        io.println("Введите имя")
+        val nameDragon = io.readLine()
 
         val x = readFloat("Введите коррдинату x")
         val y = readLong("Введите коррдинату y")
@@ -234,28 +234,28 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
 
         var type: DragonType
         while (true) {
-            println("Выберете тип дракона: water,underground, air, fire")
+            io.println("Выберете тип дракона: water,underground, air, fire")
             try {
-                type = DragonType.valueOf(scanner.nextLine().uppercase())
+                type = DragonType.valueOf(io.readLine().uppercase())
                 break
             } catch (e: Exception) {
-                println("Неверный тип дракона")
+                io.println("Неверный тип дракона")
             }
         }
 
         var character: DragonCharacter
         while (true) {
-            println("Выберете характер дракона: wise, good, chaotic, chaotic_evil, fickle")
+            io.println("Выберете характер дракона: wise, good, chaotic, chaotic_evil, fickle")
             try {
-                character = DragonCharacter.valueOf(scanner.nextLine().uppercase())
+                character = DragonCharacter.valueOf(io.readLine().uppercase())
                 break
             } catch (e: Exception) {
-                println("Неверный характер дракона")
+                io.println("Неверный характер дракона")
             }
         }
 
-        println("Создать голову? yes/no")
-        val answer = scanner.nextLine().lowercase()
+        io.println("Создать голову? yes/no")
+        val answer = io.readLine().lowercase()
         val head: DragonHead?
         if (answer == "yes") {
             val eyesCount = readInt("Введите количество глаз")
@@ -287,29 +287,29 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             }
         }
         if (keysToRemove.isEmpty()) {
-            println("Нет элементов с ключом больше этого")
+            io.println("Нет элементов с ключом больше этого")
             return
         }
         for (k in keysToRemove) {
             storage.remove(k)
         }
 
-        println("Удалено элементов: ${keysToRemove.size}")
+        io.println("Удалено элементов: ${keysToRemove.size}")
     }
 
     fun removeGreater() {
         if (storage.isEmpty()) {
-            println("Коллекция пуста")
+            io.println("Коллекция пуста")
             return
         }
 
-        println("По какому параметру сравнивать (id, x, y, toothCount, age, weight, eyesCount)?")
+        io.println("По какому параметру сравнивать (id, x, y, toothCount, age, weight, eyesCount)?")
 
-        val param = scanner.nextLine()
+        val param = io.readLine()
 
-        println("Введите значение для сравнения")
+        io.println("Введите значение для сравнения")
 
-        val value = scanner.nextLine().toDouble()
+        val value = io.readLine().toDouble()
         val keysToRemove = mutableListOf<Long>()
 
         for ((key, dragon) in storage) {
@@ -357,7 +357,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             }
 
             else {
-                println("Неверный параметр")
+                io.println("Неверный параметр")
                 return
             }
         }
@@ -366,26 +366,26 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             storage.remove(k)
         }
 
-        println("Удалено элементов: ${keysToRemove.size}")
+        io.println("Удалено элементов: ${keysToRemove.size}")
     }
 
     fun replaceIfGreater() {
 
         if (storage.isEmpty()) {
-            println("Коллекция пуста")
+            io.println("Коллекция пуста")
             return
         }
 
-        println("Введите ключ элемента для замены:")
-        val key = scanner.nextLine().toLong()
+        io.println("Введите ключ элемента для замены:")
+        val key = io.readLine().toLong()
         val current = storage[key]
         if (current == null) {
-            println("Элемент с таким ключом не найден")
+            io.println("Элемент с таким ключом не найден")
             return
         }
 
-        println("По какому параметру сравнивать (x, y, toothCount, age, weight, eyesCount)?")
-        val param = scanner.nextLine()
+        io.println("По какому параметру сравнивать (x, y, toothCount, age, weight, eyesCount)?")
+        val param = io.readLine()
 
         var isReplaced = false
 
@@ -421,7 +421,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             val value = readInt("Введите новое количество глаз")
             val head = current.head
             if (head == null) {
-                println("У элемента нет головы")
+                io.println("У элемента нет головы")
                 return
             }
             if (value > head.eyesCount) {
@@ -433,7 +433,7 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             val value = readDouble("Введите новое количество зубов")
             val head = current.head
             if (head == null) {
-                println("У элемента нет головы")
+                io.println("У элемента нет головы")
                 return
             }
             if (value > head.toothCount) {
@@ -442,40 +442,37 @@ class CollectionManager (val time: LocalDateTime, val fileName: String) {
             }
         }
         else {
-            println("Неверный параметр")
+            io.println("Неверный параметр")
             return
         }
 
         if (isReplaced) {
-            println("Элемент успешно заменён")
+            io.println("Элемент успешно заменён")
         } else {
-            println("Новое значение не больше старого, замена не выполнена")
+            io.println("Новое значение не больше старого, замена не выполнена")
         }
     }
 
-    companion object {
-        private val executingScripts = mutableSetOf<String>()
-    }
+    private val executingScripts = mutableSetOf<String>()
 
     fun executeScript(fileName: String) {
 
         if (executingScripts.contains(fileName)) {
-            println("Обнаружена рекурсия! Скрипт уже выполняется.")
+            io.println("Обнаружена рекурсия! Скрипт уже выполняется.")
             return
         }
 
         val file = File(fileName)
 
         if (!file.exists() || !file.isFile) {
-            println("Файл не найден: $fileName")
+            io.println("Файл не найден: $fileName")
             return
         }
 
         executingScripts.add(fileName)
 
-        scanner = Scanner(file)
+        io.setFileInput(file)
     }
 
-    var scanner: Scanner = Scanner(System.`in`)
-    val consoleScanner = scanner
+
 }

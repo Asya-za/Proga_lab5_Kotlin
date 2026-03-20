@@ -1,14 +1,15 @@
 package commands
 import exceptions.ExitException
+import io.IOManager
 
 import kotlin.system.exitProcess
 
-class ExitCommand : Command {
+class ExitCommand(private val io: IOManager) : Command {
     override val name = "exit"
     override val description = "завершить программу"
 
     override fun execution(args: List<String>) {
-        println("Программа завершена")
+        io.println("Программа завершена")
         throw ExitException()
     }
 }

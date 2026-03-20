@@ -2,14 +2,15 @@ package commands
 
 import collection.CollectionManager
 import exceptions.ValidationException
+import io.IOManager
 
-class UpdateCommand(private val collectionManager: CollectionManager) : Command {
+class UpdateCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
     override val name = "update"
     override val description = "обновить элемент по id"
 
     override fun execution(args: List<String>) {
         if (args.isEmpty()) {
-            println("Необходимо указать id")
+            io.println("Необходимо указать id")
             return
         }
 
@@ -17,7 +18,7 @@ class UpdateCommand(private val collectionManager: CollectionManager) : Command 
         try {
             id = args[0].toLong()
         } catch (e: NumberFormatException) {
-            println("id должен быть числом")
+            io.println("id должен быть числом")
             return
         }
 
@@ -26,7 +27,7 @@ class UpdateCommand(private val collectionManager: CollectionManager) : Command 
             collectionManager.updateById(id, dragon)
         }
         catch (e: ValidationException) {
-            println("Ошибка: ${e.message}")
+            io.println("Ошибка: ${e.message}")
         }
     }
 }

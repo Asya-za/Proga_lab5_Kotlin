@@ -5,16 +5,17 @@ import collection.CollectionManager
 import model.*
 import java.time.LocalDateTime
 import exceptions.ValidationException
+import io.IOManager
 import model.DragonHead
 
 
-class InsertCommand(private val collectionManager: CollectionManager): Command {
+class InsertCommand(private val collectionManager: CollectionManager, private val io: IOManager): Command {
     override val name = "insert"
     override val description = "добавить новый элемент с заданным ключом"
 
     override fun execution(args: List<String>) {
         if (args.isEmpty()) {
-            println("Необходимо указать ключ")
+            io.println("Необходимо указать ключ")
             return
         }
 
@@ -23,22 +24,22 @@ class InsertCommand(private val collectionManager: CollectionManager): Command {
             key = args[0].toLong()
         }
         catch (e: NumberFormatException){
-            println("Ключ должен быть числом")
+            io.println("Ключ должен быть числом")
             return
         }
 
         if (collectionManager.storage.containsKey(key)) {
-            println("Уже существует элемент с таким ключом")
+            io.println("Уже существует элемент с таким ключом")
             return
         }
 
         try {
             val dragon = collectionManager.createDragon(collectionManager.nextId())
                 collectionManager.storage[key] = dragon
-            println("Дракон добавлен")
+            io.println("Дракон добавлен")
         }
         catch (e: ValidationException) {
-            println("Ошибка: ${e.message}")
+            io.println("Ошибка: ${e.message}")
         }
     }
 }
