@@ -2,7 +2,7 @@ package commands
 
 
 import collection.CommandManager
-import io.IOManager
+import collection.IOManager
 
 class HelpCommand(private val commandManager: CommandManager, private val io: IOManager) : Command {
     override val name = "help"

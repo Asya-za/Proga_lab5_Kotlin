@@ -2,7 +2,7 @@ package commands
 
 import collection.CollectionManager
 import exceptions.ValidationException
-import io.IOManager
+import collection.IOManager
 
 class UpdateCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
     override val name = "update"

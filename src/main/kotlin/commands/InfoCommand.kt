@@ -1,7 +1,7 @@
 package commands
 
 import collection.CollectionManager
-import io.IOManager
+import collection.IOManager
 
 
 class InfoCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {

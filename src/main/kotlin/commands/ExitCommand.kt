@@ -1,6 +1,6 @@
 package commands
 import exceptions.ExitException
-import io.IOManager
+import collection.IOManager
 
 import kotlin.system.exitProcess
 

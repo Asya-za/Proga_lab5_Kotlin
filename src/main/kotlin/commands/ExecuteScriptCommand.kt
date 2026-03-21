@@ -2,7 +2,7 @@ package commands
 
 import collection.CollectionManager
 import collection.CommandManager
-import io.IOManager
+import collection.IOManager
 
 class ExecuteScriptCommand(
     private val collectionManager: CollectionManager,

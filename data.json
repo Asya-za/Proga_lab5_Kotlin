@@ -17,7 +17,7 @@
     }
   },
   "5": {
-    "id": 4,
+    "id": 2,
     "name": "sdfs",
     "coordinates": {
       "x": 5.0,
@@ -30,7 +30,7 @@
     "character": "CHAOTIC"
   },
   "2": {
-    "id": 2,
+    "id": 3,
     "name": "ueueu",
     "coordinates": {
       "x": 1.0,
@@ -42,8 +42,21 @@
     "type": "AIR",
     "character": "GOOD"
   },
+  "67": {
+    "id": 5,
+    "name": "ghjk",
+    "coordinates": {
+      "x": 7.0,
+      "y": 689
+    },
+    "creationDate": "2026-03-06T23:03:52.495944400",
+    "age": 79,
+    "weight": 6686.0,
+    "type": "AIR",
+    "character": "GOOD"
+  },
   "56": {
-    "id": 3,
+    "id": 4,
     "name": "4",
     "coordinates": {
       "x": 43.0,

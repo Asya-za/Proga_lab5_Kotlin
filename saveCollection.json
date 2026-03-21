@@ -1,4 +1,17 @@
 {
+  "21": {
+    "id": 7,
+    "name": "Smaug",
+    "coordinates": {
+      "x": 102.0,
+      "y": 15
+    },
+    "creationDate": "2026-03-07T13:56:15.099832800",
+    "age": 25,
+    "weight": 180.0,
+    "type": "WATER",
+    "character": "WISE"
+  },
   "30": {
     "id": 1,
     "name": "Shadow",
@@ -42,8 +55,25 @@
     "type": "AIR",
     "character": "GOOD"
   },
+  "1": {
+    "id": 6,
+    "name": "DragonFire",
+    "coordinates": {
+      "x": 101.0,
+      "y": 20
+    },
+    "creationDate": "2026-03-07T13:56:15.098833500",
+    "age": 200,
+    "weight": 75.0,
+    "type": "FIRE",
+    "character": "FICKLE",
+    "head": {
+      "eyesCount": 4,
+      "toothCount": 44.0
+    }
+  },
   "56": {
-    "id": 4,
+    "id": 5,
     "name": "4",
     "coordinates": {
       "x": 43.0,
@@ -58,5 +88,18 @@
       "eyesCount": 8,
       "toothCount": 8.0
     }
+  },
+  "67": {
+    "id": 4,
+    "name": "ghjk",
+    "coordinates": {
+      "x": 7.0,
+      "y": 689
+    },
+    "creationDate": "2026-03-06T23:03:52.495944400",
+    "age": 79,
+    "weight": 6686.0,
+    "type": "AIR",
+    "character": "GOOD"
   }
 }

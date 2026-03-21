@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 import java.util.Scanner
 import collection.FileManager
 import exceptions.ExitException
-import io.IOManager
+import collection.IOManager
 
 import java.io.PrintStream
 

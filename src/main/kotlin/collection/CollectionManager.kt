@@ -6,7 +6,7 @@ import java.util.Hashtable
 import com.google.gson.GsonBuilder
 import java.io.FileWriter
 import collection.FileManager
-import io.IOManager
+import collection.IOManager
 import model.Coordinates
 import model.DragonCharacter
 import model.DragonHead

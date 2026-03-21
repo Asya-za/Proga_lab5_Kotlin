@@ -1,7 +1,7 @@
 package commands
 
 import collection.CollectionManager
-import io.IOManager
+import collection.IOManager
 
 class RemoveKeyCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
 
@@ -15,7 +15,15 @@ class RemoveKeyCommand(private val collectionManager: CollectionManager, private
             return
         }
 
-        val key = args[0].toLong()
+
+        val key = try {
+            args[0].toLong()
+        }
+        catch (e: NumberFormatException) {
+            io.println("Ключ должен быть числом")
+            return
+        }
+
         collectionManager.removeByKey(key)
     }
 }

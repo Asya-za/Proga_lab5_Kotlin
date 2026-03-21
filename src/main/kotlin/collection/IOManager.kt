@@ -1,4 +1,4 @@
-package io
+package collection
 
 import java.io.File
 import java.util.Scanner
