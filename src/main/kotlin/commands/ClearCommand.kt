@@ -2,7 +2,10 @@ package commands
 
 import collection.CollectionManager
 import collection.IOManager
-
+/**
+ * Команда очистки коллекции.
+ * Удаляет все элементы из коллекции.
+ */
 class ClearCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
 
     override val name = "clear"

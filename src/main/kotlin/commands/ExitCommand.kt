@@ -3,7 +3,10 @@ import exceptions.ExitException
 import collection.IOManager
 
 import kotlin.system.exitProcess
-
+/**
+ * Команда выхода из программы.
+ * Завершает выполнение без сохранения коллекции.
+ */
 class ExitCommand(private val io: IOManager) : Command {
     override val name = "exit"
     override val description = "завершить программу"

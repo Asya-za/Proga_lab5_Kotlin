@@ -3,7 +3,10 @@ package commands
 import collection.CollectionManager
 import exceptions.ValidationException
 import collection.IOManager
-
+/**
+ * Команда обновления элемента.
+ * Обновляет значение элемента по заданному id.
+ */
 class UpdateCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
     override val name = "update"
     override val description = "обновить элемент по id"

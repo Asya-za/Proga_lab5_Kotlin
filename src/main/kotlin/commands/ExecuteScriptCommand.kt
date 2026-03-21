@@ -3,7 +3,10 @@ package commands
 import collection.CollectionManager
 import collection.CommandManager
 import collection.IOManager
-
+/**
+ * Команда выполнения скрипта.
+ * Считывает команды из файла и выполняет их последовательно.
+ */
 class ExecuteScriptCommand(
     private val collectionManager: CollectionManager,
     private val commandManager: CommandManager,

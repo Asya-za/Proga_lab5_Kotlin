@@ -1,7 +1,10 @@
 package commands
 
 import collection.CollectionManager
-
+/**
+ * Команда замены элемента.
+ * Заменяет значение по ключу, если новое значение больше текущего.
+ */
 class ReplaceIfGreaterCommand(private val collectionManager: CollectionManager) : Command {
 
     override val name = "replace_if_greater"

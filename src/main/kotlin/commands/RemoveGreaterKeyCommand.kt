@@ -2,7 +2,10 @@ package commands
 
 import collection.CollectionManager
 import collection.IOManager
-
+/**
+ * Команда удаления по ключу.
+ * Удаляет элементы, ключ которых больше заданного.
+ */
 class RemoveGreaterKeyCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
 
     override val name = "remove_greater_key"

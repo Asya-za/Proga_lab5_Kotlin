@@ -1,14 +1,13 @@
 package commands
 
 import collection.CollectionManager
-//import generation.IdGenerator
-import model.*
-import java.time.LocalDateTime
 import exceptions.ValidationException
 import collection.IOManager
-import model.DragonHead
 
-
+/**
+ * Команда добавления элемента.
+ * Добавляет новый элемент с заданным ключом в коллекцию.
+ */
 class InsertCommand(private val collectionManager: CollectionManager, private val io: IOManager): Command {
     override val name = "insert"
     override val description = "добавить новый элемент с заданным ключом"

@@ -2,7 +2,10 @@ package commands
 
 import collection.CollectionManager
 import collection.IOManager
-
+/**
+ * Команда удаления элемента по ключу.
+ * Удаляет элемент коллекции по заданному ключу.
+ */
 class RemoveKeyCommand(private val collectionManager: CollectionManager, private val io: IOManager) : Command {
 
     override val name = "remove_key"

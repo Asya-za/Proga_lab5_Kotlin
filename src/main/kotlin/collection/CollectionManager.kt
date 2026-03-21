@@ -13,12 +13,25 @@ import model.DragonHead
 import model.DragonType
 import java.io.File
 
-
+/**
+ * Класс для управления коллекцией объектов Dragon.
+ * Отвечает за хранение, изменение и обработку элементов коллекции,
+ * а также взаимодействие с пользователем через IOManager.
+ *
+ * @property time время инициализации коллекции
+ * @property fileName имя файла, связанного с коллекцией
+ * @property io объект для ввода и вывода данных
+ */
 class CollectionManager (val time: LocalDateTime, val fileName: String, private val io: IOManager) {
     val storage: Hashtable<Long, Dragon> = Hashtable()
-
+    /**
+     * Возвращает количество элементов в коллекции.
+     * @return размер коллекции
+     */
     fun Size(): Int = storage.size
-
+    /**
+     * Выводит все элементы коллекции.
+     */
     fun ShowAll() {
         if (storage.isEmpty()) {
             io.println("Коллекция пустая")
@@ -33,7 +46,10 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
     fun clear() {
         storage.clear()
     }
-
+    /**
+     * Удаляет элемент по заданному ключу.
+     * @param key ключ элемента
+     */
     fun removeByKey(key: Long) {
         if (storage.containsKey(key)) {
             storage.remove(key)
@@ -42,7 +58,9 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
             io.println("Ключ не найден")
         }
     }
-
+    /**
+     * Выводит элементы коллекции, отсортированные по выбранному параметру.
+     */
     fun printAscending() {
         if (storage.isEmpty()) {
             io.println("Элементы не найдены")
@@ -86,17 +104,22 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
             io.println(dragon.toString())
         }
     }
-
+    /**
+     * Фильтрует элементы по префиксу имени.
+     * @param prefix начало имени
+     */
     fun filterStartsWithName(prefix: String) {
         val filtered = storage.values.filter { it.name.startsWith(prefix) }
 
         if (filtered.isEmpty()) {
             io.println("Элементы не найдены")
         } else {
-            filtered.forEach { println(it) }
+            filtered.forEach { io.println(it.toString()) }
         }
     }
-
+    /**
+     * Группирует элементы по id и выводит количество в каждой группе.
+     */
     fun groupCountingById() {
         val grouped = storage.values.groupingBy { it.id }.eachCount()
 
@@ -113,7 +136,10 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
         .registerTypeAdapter(LocalDateTime::class.java, FileManager.LocalDateTimeAdapter())
         .setPrettyPrinting()
         .create()
-
+    /**
+     * Сохраняет коллекцию в файл.
+     * @param fileName имя файла
+     */
     fun save(fileName: String) {
         try {
             val fileWriter = FileWriter(fileName)
@@ -124,8 +150,10 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
             io.println("Ошибка сохранения: ${e.message}")
         }
     }
-
-
+    /**
+     * Загружает коллекцию из файла.
+     * @param fileManager менеджер работы с файлом
+     */
     fun loadCollectionFromFile(fileManager: FileManager) {
         val elements = fileManager.readCollection()
         for ((key, dragon) in elements) {
@@ -140,9 +168,11 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
         nextId++
         return id
     }
-
-
-
+    /**
+     * Считывает значение типа Long с консоли.
+     * @param message сообщение пользователю
+     * @return введённое значение
+     */
     fun readLong(message: String): Long {
         while (true) {
             io.println(message)
@@ -155,7 +185,11 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
 
         }
     }
-
+    /**
+     * Считывает значение типа Int с консоли.
+     * @param message сообщение пользователю
+     * @return введённое значение
+     */
     fun readInt(message: String): Int {
         while (true) {
             io.println(message)
@@ -168,7 +202,11 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
 
         }
     }
-
+    /**
+     * Считывает значение типа Float с консоли.
+     * @param message сообщение пользователю
+     * @return введённое значение
+     */
     fun readFloat(message: String): Float {
         while (true) {
             io.println(message)
@@ -180,7 +218,11 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
             }
         }
     }
-
+    /**
+     * Считывает значение типа Double с консоли.
+     * @param message сообщение пользователю
+     * @return введённое значение
+     */
     fun readDouble(message: String): Double {
         while (true) {
             io.println(message)
@@ -193,9 +235,11 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
 
         }
     }
-
-
-
+    /**
+     * Обновляет элемент по его id.
+     * @param id идентификатор элемента
+     * @param newDragon новый объект
+     */
     fun updateById(id: Long, newDragon: Dragon) {
         var keyToUpdate: Long? = null
         var oldDragon: Dragon? = null
@@ -222,6 +266,11 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
         io.println("Элемент обновлён")
     }
 
+    /**
+     * Создаёт объект Dragon на основе пользовательского ввода.
+     * @param id идентификатор
+     * @return созданный объект Dragon
+     */
     fun createDragon(id: Int): Dragon {
 
         io.println("Введите имя")
@@ -278,7 +327,10 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
             head = head
         )
     }
-
+    /**
+     * Удаляет элементы с ключом больше заданного.
+     * @param key ключ для сравнения
+     */
     fun removeGreaterKey(key: Long) {
         val keysToRemove = mutableListOf<Long>()
         for (k in storage.keys) {
@@ -296,7 +348,9 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
 
         io.println("Удалено элементов: ${keysToRemove.size}")
     }
-
+    /**
+     * Удаляет элементы, значение которых больше заданного по выбранному параметру.
+     */
     fun removeGreater() {
         if (storage.isEmpty()) {
             io.println("Коллекция пуста")
@@ -368,7 +422,9 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
 
         io.println("Удалено элементов: ${keysToRemove.size}")
     }
-
+    /**
+     * Заменяет значение элемента, если новое больше текущего.
+     */
     fun replaceIfGreater() {
 
         if (storage.isEmpty()) {
@@ -454,7 +510,12 @@ class CollectionManager (val time: LocalDateTime, val fileName: String, private 
     }
 
     private val executingScripts = mutableSetOf<String>()
-
+    /**
+     * Выполняет команды из файла.
+     * Защищает от рекурсивного вызова скриптов.
+     *
+     * @param fileName имя файла со скриптом
+     */
     fun executeScript(fileName: String) {
 
         if (executingScripts.contains(fileName)) {

@@ -11,6 +11,12 @@ import collection.IOManager
 
 import java.io.PrintStream
 
+/**
+ * Точка входа в программу.
+ * Отвечает за инициализацию всех компонентов и запуск цикла обработки команд.
+ *
+ * @param args аргументы командной строки (имя файла с коллекцией)
+ */
 fun main(args: Array<String>) {
     System.setOut(PrintStream(System.out, true, "UTF-8"))
     System.setErr(PrintStream(System.err, true, "UTF-8"))
