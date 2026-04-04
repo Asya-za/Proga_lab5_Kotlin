@@ -9,7 +9,6 @@ import collection.IOManager
  */
 class ExecuteScriptCommand(
     private val collectionManager: CollectionManager,
-    private val commandManager: CommandManager,
     private val io: IOManager
 ) : Command {
 

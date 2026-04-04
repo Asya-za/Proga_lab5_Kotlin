@@ -17,7 +17,6 @@ import exceptions.*
  */
 class FileManager (private val fileName: String) {
 
-    private val file = File(fileName)
     private val gson: Gson = GsonBuilder().registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter()).create()
     /**
      * Проверяет корректность файла.

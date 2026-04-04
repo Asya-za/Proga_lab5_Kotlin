@@ -1,8 +1,8 @@
 package commands
+
 import exceptions.ExitException
 import collection.IOManager
 
-import kotlin.system.exitProcess
 /**
  * Команда выхода из программы.
  * Завершает выполнение без сохранения коллекции.

@@ -18,21 +18,17 @@ import java.io.PrintStream
  * @param args аргументы командной строки (имя файла с коллекцией)
  */
 fun main(args: Array<String>) {
-    System.setOut(PrintStream(System.out, true, "UTF-8"))
-    System.setErr(PrintStream(System.err, true, "UTF-8"))
+    val io = IOManager()
 
     if (args.isEmpty()) {
-        System.err.println("Ошибка: нужно передать имя файла")
+        io.eprintln("Ошибка: нужно передать имя файла")
         return
     }
-
-
 
     val fileName = args[0]
     val fileManager = FileManager(fileName)
 
     val initializationTime = LocalDateTime.now()
-    val io = IOManager()
     val collectionManager = CollectionManager(initializationTime, fileName, io)
     val commandManager = CommandManager()
 
@@ -41,7 +37,7 @@ fun main(args: Array<String>) {
         io.println("Коллекция загружена. Количество элементов: ${collectionManager.Size()}")
     }
     catch (e: Exception) {
-        io.println("Не удалось загрузить коллекцию: ${e.message}")
+        io.eprintln("Не удалось загрузить коллекцию: ${e.message}")
     }
 
     commandManager.addToList(HelpCommand(commandManager, io))
@@ -59,17 +55,15 @@ fun main(args: Array<String>) {
     commandManager.addToList(RemoveGreaterCommand(collectionManager))
     commandManager.addToList(RemoveKeyCommand(collectionManager, io))
     commandManager.addToList(ReplaceIfGreaterCommand(collectionManager))
-    commandManager.addToList(ExecuteScriptCommand(collectionManager, commandManager, io))
-
+    commandManager.addToList(ExecuteScriptCommand(collectionManager, io))
 
     io.println("Программа запущена")
     io.println("Файл: $fileName")
 
-
     try {
         while (true) {
-            print("> ")
-            System.out.flush()
+            io.print("> ")
+            io.flush()
 
             val line = io.readLine()
 
